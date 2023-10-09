@@ -15,6 +15,8 @@ pip install -r requirements.txt
 python main.py
 ```
 
+Set up your environment variables, too.
+
 ## Notes
 
 CPSC 213 course IDs.
