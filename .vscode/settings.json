@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "*.env": "dotenv",
+        ".env.example": "dotenv"
+    },
+    "files.insertFinalNewline": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.terminal.activateEnvironment": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.organizeImports": true
+    }
+}
