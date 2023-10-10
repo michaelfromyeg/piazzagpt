@@ -102,13 +102,9 @@ def transform(course: str) -> None:
             course_ids_in_profile.append(course_id)
 
     for course_id in course_ids_in_profile:
-        os.makedirs(f"data/{course_id}", exist_ok=True)
+        print(course_id)
 
-        course_object = p.network(course_id)
-        posts = course_object.iter_all_posts(sleep=5)
-
-        for post in posts:
-
+        # TODO(michaelfromyeg): process course's json posts into better format
 
 def main() -> None:
     """
