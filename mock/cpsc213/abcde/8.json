@@ -1,0 +1,516 @@
+{
+    "folders": [
+        "other"
+    ],
+    "nr": 8,
+    "data": {
+        "embed_links": []
+    },
+    "created": "2020-09-08T05:31:57Z",
+    "bucket_order": 3,
+    "no_answer_followup": 0,
+    "change_log": [
+        {
+            "anon": "full",
+            "data": "ketio8c2rmq1u0",
+            "v": "all",
+            "type": "create",
+            "when": "2020-09-08T05:31:57Z",
+            "uid_a": "a_0"
+        },
+        {
+            "anon": "no",
+            "uid": "j1b2el343u341u",
+            "data": "ketk0d1tjeh6tp",
+            "to": "ketio8bzo6g1tz",
+            "type": "i_answer",
+            "when": "2020-09-08T06:09:22Z"
+        },
+        {
+            "anon": "stud",
+            "to": "ketio8bzo6g1tz",
+            "type": "followup",
+            "when": "2020-09-08T17:38:27Z",
+            "uid_a": "a_1"
+        },
+        {
+            "anon": "no",
+            "uid": "j1b2el343u341u",
+            "to": "ketio8bzo6g1tz",
+            "type": "feedback",
+            "when": "2020-09-08T18:43:18Z"
+        },
+        {
+            "anon": "stud",
+            "to": "ketio8bzo6g1tz",
+            "type": "followup",
+            "when": "2020-09-11T18:40:04Z",
+            "uid_a": "a_2"
+        },
+        {
+            "anon": "stud",
+            "to": "ketio8bzo6g1tz",
+            "type": "followup",
+            "when": "2020-09-11T18:41:07Z",
+            "uid_a": "a_2"
+        },
+        {
+            "anon": "no",
+            "uid": "jlqu9ncamljX",
+            "to": "ketio8bzo6g1tz",
+            "type": "feedback",
+            "when": "2020-09-11T21:41:46Z"
+        },
+        {
+            "anon": "no",
+            "uid": "jlqu9ncamljX",
+            "to": "ketio8bzo6g1tz",
+            "type": "feedback",
+            "when": "2020-09-11T21:46:49Z"
+        },
+        {
+            "anon": "stud",
+            "to": "ketio8bzo6g1tz",
+            "type": "followup",
+            "when": "2020-09-18T20:40:09Z",
+            "cid": "kf8pipig8d51im",
+            "uid_a": "a_3"
+        },
+        {
+            "anon": "no",
+            "uid": "j1b2el343u341u",
+            "to": "ketio8bzo6g1tz",
+            "type": "feedback",
+            "when": "2020-09-18T20:49:39Z",
+            "cid": "kf8pux50bh02k1"
+        }
+    ],
+    "bucket_name": "Today",
+    "history": [
+        {
+            "anon": "full",
+            "uid_a": "a_0",
+            "subject": "2-hour lab section",
+            "created": "2020-09-08T05:31:57Z",
+            "content": "<p>What will we be doing during our 2hour lab section? I understand that during the 1h lab section, we will be working on some questions with our group.</p>"
+        }
+    ],
+    "type": "question",
+    "tags": [
+        "other",
+        "student"
+    ],
+    "tag_good": [
+        {
+            "role": "student",
+            "name": "Mazen Kotb",
+            "endorser": {
+                "k4erikupq2efg": 1579850140
+            },
+            "admin": false,
+            "photo": "1599692751_200.jpg",
+            "id": "k0b9dte3e9w178",
+            "photo_url": "https://d1b10bmlvqabco.cloudfront.net/photos/k0b9dte3e9w178/1599692751_200.jpg",
+            "us": false,
+            "facebook_id": null
+        },
+        {
+            "role": "student",
+            "name": "Serina Mak",
+            "endorser": {},
+            "admin": false,
+            "photo": null,
+            "id": "jlperiwajq25qo",
+            "photo_url": null,
+            "published": true,
+            "us": false,
+            "facebook_id": null
+        }
+    ],
+    "unique_views": 274,
+    "children": [
+        {
+            "folders": [],
+            "data": {
+                "embed_links": []
+            },
+            "children": [],
+            "created": "2020-09-08T06:09:22Z",
+            "bucket_order": 3,
+            "tag_endorse": [
+                {
+                    "role": "student",
+                    "name": "Kristine Gonzales",
+                    "endorser": {
+                        "jljo0hpcqow6pd": 1541370060,
+                        "jq8gno92rib1fr": 1547234693,
+                        "global": 1547678597,
+                        "jqcm3dzcwrr1ks": 1551670482,
+                        "jtz2l5il8t65r4": 1557465132,
+                        "jzvfzhtbshv2tv": 1568607087,
+                        "jzk9gv65weq62h": 1576288834,
+                        "k4achelo1c5n": 1579139656,
+                        "k54govq8oq34x0": 1584160815,
+                        "kc0wnmopmqo4vi": 1595216589,
+                        "kbwtqu7yvtj5b1": 1596599029,
+                        "kej2gdtt5x62ba": 1600580265
+                    },
+                    "admin": false,
+                    "photo": "1599609178_200.jpg",
+                    "id": "jlpra5tmxnFB",
+                    "photo_url": "https://d1b10bmlvqabco.cloudfront.net/photos/jlpra5tmxnFB/1599609178_200.jpg",
+                    "published": true,
+                    "us": false,
+                    "facebook_id": null
+                },
+                {
+                    "role": "student",
+                    "name": "David Penco",
+                    "endorser": {
+                        "kevk9m3hrvh2q8": 1599961173
+                    },
+                    "admin": false,
+                    "photo": "1508183539_35.png",
+                    "id": "hbhg7wljvt2207",
+                    "photo_url": "https://d1b10bmlvqabco.cloudfront.net/photos/hbhg7wljvt2207/1508183539_35.png",
+                    "us": false,
+                    "facebook_id": null
+                },
+                {
+                    "role": "student",
+                    "name": "Amy Liu",
+                    "endorser": {
+                        "k4kp59rqoy148s": 1583128141,
+                        "k4dn4xypnpa6q5": 1587143244
+                    },
+                    "admin": false,
+                    "photo": null,
+                    "id": "k08oag0lkl81af",
+                    "photo_url": null,
+                    "published": true,
+                    "us": false,
+                    "facebook_id": null
+                },
+                {
+                    "role": "student",
+                    "name": "J J",
+                    "endorser": {},
+                    "admin": false,
+                    "photo": null,
+                    "id": "k05wl4t523e6lv",
+                    "photo_url": null,
+                    "published": true,
+                    "us": false,
+                    "facebook_id": null
+                },
+                {
+                    "role": "student",
+                    "name": "Sheena Cheng",
+                    "endorser": {},
+                    "admin": false,
+                    "photo": null,
+                    "id": "jr9thaluph44pn",
+                    "photo_url": null,
+                    "published": true,
+                    "us": false,
+                    "facebook_id": null
+                },
+                {
+                    "role": "student",
+                    "name": "Marie",
+                    "endorser": {},
+                    "admin": false,
+                    "photo": null,
+                    "id": "jyneuvc2hxw5uq",
+                    "photo_url": null,
+                    "published": true,
+                    "us": false,
+                    "facebook_id": null
+                },
+                {
+                    "role": "student",
+                    "name": "Kevin",
+                    "endorser": {},
+                    "admin": false,
+                    "photo": null,
+                    "id": "k0aivcyz7jx1ig",
+                    "photo_url": null,
+                    "published": true,
+                    "us": false,
+                    "facebook_id": null
+                },
+                {
+                    "role": "student",
+                    "name": "Herman Muller",
+                    "endorser": {},
+                    "admin": false,
+                    "photo": null,
+                    "id": "jqfjjassxjd4pc",
+                    "photo_url": null,
+                    "published": true,
+                    "us": false,
+                    "facebook_id": null
+                },
+                {
+                    "role": "student",
+                    "name": "Imo McDonald",
+                    "endorser": {},
+                    "admin": false,
+                    "photo": null,
+                    "id": "k0ibkbmqd9h5zs",
+                    "photo_url": null,
+                    "published": true,
+                    "us": false,
+                    "facebook_id": null
+                },
+                {
+                    "role": "student",
+                    "name": "Mazen Kotb",
+                    "endorser": {
+                        "k4erikupq2efg": 1579850140
+                    },
+                    "admin": false,
+                    "photo": "1599692751_200.jpg",
+                    "id": "k0b9dte3e9w178",
+                    "photo_url": "https://d1b10bmlvqabco.cloudfront.net/photos/k0b9dte3e9w178/1599692751_200.jpg",
+                    "us": false,
+                    "facebook_id": null
+                }
+            ],
+            "bucket_name": "Today",
+            "id": "ketk0d1rfod6to",
+            "history": [
+                {
+                    "anon": "no",
+                    "uid": "j1b2el343u341u",
+                    "subject": "",
+                    "created": "2020-09-08T06:09:22Z",
+                    "content": "<p>They will be optional office hours! You would be able to hop on and ask the TAs any questions you may have (Or if you just want to come and say hi, we do get a little lonely when people don&#39;t show up to those :( )<br /><br />This and more detail will be provided in your first lecture!<br /><br />Note that there are no labs this week!</p>"
+                }
+            ],
+            "type": "i_answer",
+            "tag_endorse_arr": [
+                "jlpra5tmxnFB",
+                "hbhg7wljvt2207",
+                "k08oag0lkl81af",
+                "k05wl4t523e6lv",
+                "jr9thaluph44pn",
+                "jyneuvc2hxw5uq",
+                "k0aivcyz7jx1ig",
+                "jqfjjassxjd4pc",
+                "k0ibkbmqd9h5zs",
+                "k0b9dte3e9w178"
+            ],
+            "config": {},
+            "is_tag_endorse": false
+        },
+        {
+            "anon": "stud",
+            "folders": [],
+            "data": {
+                "embed_links": null
+            },
+            "no_upvotes": 0,
+            "subject": "<p>We also registered for 1-hr-long tutorials. Are those to be used as office hours too?\u00a0</p>",
+            "created": "2020-09-08T17:38:27Z",
+            "bucket_order": 9,
+            "bucket_name": "Week 9/6 - 9/12",
+            "type": "followup",
+            "tag_good": [],
+            "uid_a": "a_1",
+            "children": [
+                {
+                    "anon": "no",
+                    "folders": [],
+                    "data": {
+                        "embed_links": null
+                    },
+                    "subject": "<p>No. The 1-hour tutorials will be a time where you&#39;ll work with a group on some questions. They are graded for attendance/participation. More details on this to come before labs start next week!</p>",
+                    "created": "2020-09-08T18:43:18Z",
+                    "bucket_order": 9,
+                    "bucket_name": "Week 9/6 - 9/12",
+                    "type": "feedback",
+                    "tag_good": [
+                        {
+                            "role": "student",
+                            "name": "Amy Liu",
+                            "endorser": {
+                                "k4kp59rqoy148s": 1583128141,
+                                "k4dn4xypnpa6q5": 1587143244
+                            },
+                            "admin": false,
+                            "photo": null,
+                            "id": "k08oag0lkl81af",
+                            "photo_url": null,
+                            "published": true,
+                            "us": false,
+                            "facebook_id": null
+                        }
+                    ],
+                    "uid": "j1b2el343u341u",
+                    "children": [],
+                    "tag_good_arr": [
+                        "k08oag0lkl81af"
+                    ],
+                    "id": "keuaxwtw9c728q",
+                    "updated": "2020-09-08T18:43:18Z",
+                    "config": {}
+                }
+            ],
+            "tag_good_arr": [],
+            "no_answer": 0,
+            "id": "keu8mivt1yr4al",
+            "updated": "2020-09-08T17:38:27Z",
+            "config": {}
+        },
+        {
+            "anon": "stud",
+            "folders": [],
+            "data": {
+                "embed_links": null
+            },
+            "no_upvotes": 0,
+            "subject": "<p>Are the labs on zoom as well? Thank you!\u00a0</p>",
+            "created": "2020-09-11T18:40:04Z",
+            "bucket_order": 9,
+            "bucket_name": "Week 9/6 - 9/12",
+            "type": "followup",
+            "tag_good": [],
+            "uid_a": "a_2",
+            "children": [
+                {
+                    "anon": "no",
+                    "folders": [],
+                    "data": {
+                        "embed_links": null
+                    },
+                    "subject": "<p>Yes, they should be. If you don&#39;t see the links by next week let us know!</p>",
+                    "created": "2020-09-11T21:46:49Z",
+                    "bucket_order": 9,
+                    "bucket_name": "Week 9/6 - 9/12",
+                    "type": "feedback",
+                    "tag_good": [],
+                    "uid": "jlqu9ncamljX",
+                    "children": [],
+                    "tag_good_arr": [],
+                    "id": "keyrthfuqqr3x4",
+                    "updated": "2020-09-11T21:46:49Z",
+                    "config": {}
+                }
+            ],
+            "tag_good_arr": [],
+            "no_answer": 0,
+            "id": "keyl5bnwuwv7eu",
+            "updated": "2020-09-11T18:40:04Z",
+            "config": {}
+        },
+        {
+            "anon": "stud",
+            "folders": [],
+            "data": {
+                "embed_links": null
+            },
+            "no_upvotes": 0,
+            "subject": "<p>Also, do we have to attend our registered lab section or is it ok to drop in to whichever one? Thank you!\u00a0</p>",
+            "created": "2020-09-11T18:41:07Z",
+            "bucket_order": 9,
+            "bucket_name": "Week 9/6 - 9/12",
+            "type": "followup",
+            "tag_good": [],
+            "uid_a": "a_2",
+            "children": [
+                {
+                    "anon": "no",
+                    "folders": [],
+                    "data": {
+                        "embed_links": null
+                    },
+                    "subject": "<p>You can drop in to whichever 2-hour lab section that you&#39;d like since they&#39;re office hours! But you should attend your scheduled 1-hour lab section because there will be group work and you will be marked on participation.</p>",
+                    "created": "2020-09-11T21:41:46Z",
+                    "bucket_order": 9,
+                    "bucket_name": "Week 9/6 - 9/12",
+                    "type": "feedback",
+                    "tag_good": [],
+                    "uid": "jlqu9ncamljX",
+                    "children": [],
+                    "tag_good_arr": [],
+                    "id": "keyrmzfme7i4fh",
+                    "updated": "2020-09-11T21:41:46Z",
+                    "config": {}
+                }
+            ],
+            "tag_good_arr": [],
+            "no_answer": 0,
+            "id": "keyl6nxuzk12m",
+            "updated": "2020-09-11T18:41:07Z",
+            "config": {}
+        },
+        {
+            "anon": "stud",
+            "folders": [],
+            "data": {
+                "embed_links": null
+            },
+            "no_upvotes": 0,
+            "subject": "<p>How to get into a two hour optional lab? Is the same lab zoom link on canvas? I only see a zoom link for 1-hour lab</p>",
+            "created": "2020-09-18T20:40:09Z",
+            "bucket_order": 8,
+            "bucket_name": "Week 9/13 - 9/19",
+            "type": "followup",
+            "tag_good": [],
+            "uid_a": "a_3",
+            "children": [
+                {
+                    "anon": "no",
+                    "folders": [],
+                    "data": {
+                        "embed_links": null
+                    },
+                    "subject": "<md>It should be on the \"Zoom\" column on canvas, not the \"lab (1-hr) zoom\" column</md>",
+                    "created": "2020-09-18T20:49:39Z",
+                    "bucket_order": 8,
+                    "bucket_name": "Week 9/13 - 9/19",
+                    "type": "feedback",
+                    "tag_good": [],
+                    "uid": "j1b2el343u341u",
+                    "children": [],
+                    "tag_good_arr": [],
+                    "id": "kf8pux50bh02k1",
+                    "updated": "2020-09-18T20:49:39Z",
+                    "config": {}
+                }
+            ],
+            "tag_good_arr": [],
+            "no_answer": 0,
+            "id": "kf8pipig8d51im",
+            "updated": "2020-09-18T20:40:09Z",
+            "config": {}
+        }
+    ],
+    "tag_good_arr": [
+        "k0b9dte3e9w178",
+        "jlperiwajq25qo"
+    ],
+    "no_answer": 0,
+    "id": "ketio8bzo6g1tz",
+    "config": {
+        "seen": {
+            "6": 1,
+            "7": 0
+        }
+    },
+    "status": "active",
+    "drafts": null,
+    "request_instructor": 0,
+    "request_instructor_me": false,
+    "bookmarked": 5,
+    "num_favorites": 0,
+    "my_favorite": false,
+    "is_bookmarked": false,
+    "is_tag_good": false,
+    "q_edits": [],
+    "i_edits": [],
+    "s_edits": [],
+    "t": 1696840182652,
+    "default_anonymity": "no"
+}
