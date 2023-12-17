@@ -3,6 +3,9 @@
 data/**/*
 !data/.gitkeep
 
+transformed_data/**/*
+!transformed_data/.gitkeep
+
 ### Python.gitignore
 
 # Byte-compiled / optimized / DLL files

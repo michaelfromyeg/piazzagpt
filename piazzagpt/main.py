@@ -5,6 +5,7 @@ import argparse
 import json
 import logging
 import os
+from typing import Any
 
 from dotenv import load_dotenv
 from piazza_api import Piazza
@@ -91,6 +92,81 @@ def download(course: str) -> None:
     return None
 
 
+def _transform_post(post: dict) -> dict:
+    """
+    Transform a Piazza post into a Cohere prompt-completion pair.
+    """
+    transformed_post: dict[str, Any] = {}
+
+    # Extract the original question and its ID
+    original_question_info: dict[str, Any] = next(
+        (item for item in post.get("history", []) if item.get("subject")), {}
+    )
+    original_question_title = original_question_info.get("subject", "")
+    original_question_content = original_question_info.get("content", "")
+    original_question_id = post.get("id", "original")
+
+    # Original question metadata
+    original_question_metadata = {
+        "is_follow_up": False,
+        "upvotes": post.get("num_favorites", 0),  # Assuming 'num_favorites' as upvotes
+    }
+
+    # Check if the original question has an instructor answer
+    instructor_answer = next(
+        (
+            child.get("history", [{}])[0].get("content", None)
+            for child in post.get("children", [])
+            if child.get("type", "") == "i_answer"
+        ),
+        None,
+    )
+
+    # Original question entry
+    transformed_post[original_question_id] = {
+        "subject": original_question_title,
+        "question": original_question_content,
+        "answer": instructor_answer,
+        "metadata": original_question_metadata,
+    }
+
+    # Iterate over the children for follow-up questions and answers
+    for child in post.get("children", []):
+        # Skip instructor answers as they are already handled
+        if child.get("type", "") == "i_answer":
+            continue
+
+        follow_up_question_content = child.get("subject", "")
+        follow_up_question_id = child.get("id", f"followup_{len(transformed_post)}")
+
+        # Extract follow-up answer if any
+        follow_up_answer = next(
+            (
+                child_answer.get("subject", "")
+                for child_answer in child.get("children", [])
+            ),
+            None,
+        )
+
+        # Follow-up question metadata
+        follow_up_question_metadata = {
+            "is_follow_up": True,
+            "upvotes": child.get(
+                "num_favorites", 0
+            ),  # Assuming 'num_favorites' as upvotes for follow-ups
+            "original_question_id": original_question_id,
+        }
+
+        # Follow-up question entry
+        transformed_post[follow_up_question_id] = {
+            "question": follow_up_question_content,
+            "answer": follow_up_answer,
+            "metadata": follow_up_question_metadata,
+        }
+
+    return transformed_post
+
+
 def transform(course: str) -> None:
     """
     Pre-process the Piazza post JSON files into something that's Cohere ready.
@@ -123,10 +199,36 @@ def transform(course: str) -> None:
         if course in course_object["num"]:
             course_ids_in_profile.append(course_id)
 
+    transformed_course_path = os.path.join(CWD, "transformed_data", tidy_course)
     for course_id in course_ids_in_profile:
-        print(course_id)
+        logger.debug("[transform] Transforming course instance %s", course_id)
 
-        # TODO(michaelfromyeg): process course's json posts into better format
+        course_instance_path = os.path.join(course_path, course_id)
+        if not (
+            os.path.exists(course_instance_path) or os.path.isdir(course_instance_path)
+        ):
+            raise ValueError(
+                f"Course instance {course_id} not downloaded yet. Run `download` first."
+            )
+
+        transformed_course_instance_path = os.path.join(
+            transformed_course_path, course_id
+        )
+        os.makedirs(transformed_course_instance_path, exist_ok=True)
+        for piazza_file in os.listdir(course_instance_path):
+            piazza_file_path = os.path.join(course_instance_path, piazza_file)
+            with open(piazza_file_path, "r", encoding="utf-8") as f:
+                post = json.load(f)
+
+                post_transformed = _transform_post(post)
+
+            transformed_piazza_file_path = os.path.join(
+                transformed_course_instance_path, piazza_file
+            )
+            with open(transformed_piazza_file_path, "w", encoding="utf-8") as f:
+                f.write(json.dumps(post_transformed))
+
+    logger.info("[transform] Wrote transformed course %s", course)
 
 
 def main() -> None:
