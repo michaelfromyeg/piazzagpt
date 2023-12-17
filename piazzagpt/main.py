@@ -1,6 +1,7 @@
 """
 Scrape Piazza data.
 """
+import argparse
 import json
 import logging
 import os
@@ -8,7 +9,9 @@ import os
 from dotenv import load_dotenv
 from piazza_api import Piazza
 
-dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+CWD = os.getcwd()
+
+dotenv_path = os.path.join(CWD, ".env")
 load_dotenv(dotenv_path)
 
 PIAZZA_USERNAME = os.environ.get("PIAZZA_USERNAME")
@@ -16,6 +19,7 @@ PIAZZA_PASSWORD = os.environ.get("PIAZZA_PASSWORD")
 
 # TODO(michaelfromyeg): setup a better logger with function names.
 logger = logging.getLogger(__name__)
+
 
 def piazza() -> Piazza:
     """
@@ -28,6 +32,7 @@ def piazza() -> Piazza:
 
     return p
 
+
 def is_course(course: str) -> bool:
     """
     Check if a string is a course like <DPRT> <NUM>.
@@ -38,6 +43,14 @@ def is_course(course: str) -> bool:
         return False
     return True
 
+
+def tidy(course: str) -> str:
+    """
+    Convert a course like <DPRT> <NUM> to <dprt><num>
+    """
+    return course.replace(" ", "").lower()
+
+
 def download(course: str) -> None:
     """
     Download course data from Piazza.
@@ -45,7 +58,10 @@ def download(course: str) -> None:
     if not is_course(course):
         raise ValueError("`download` expects a course like <DPRT> <NUM>")
 
-    os.makedirs(f"data/{course}", exist_ok=True)
+    course_tidy = tidy(course)
+
+    course_path = os.path.join(CWD, "data", course_tidy)
+    os.makedirs(course_path, exist_ok=True)
 
     p = piazza()
 
@@ -57,20 +73,23 @@ def download(course: str) -> None:
             course_ids_in_profile.append(course_id)
 
     for course_id in course_ids_in_profile:
-        os.makedirs(f"data/{course}/{course_id}", exist_ok=True)
+        course_id_path = os.path.join(course_path, course_id)
+        os.makedirs(course_id_path, exist_ok=True)
 
         course_object = p.network(course_id)
         posts = course_object.iter_all_posts(sleep=5)
 
         for post in posts:
-            # TODO(michaelfromyeg): consider truncating the post
-            with open(f"data/{course_id}/{post["nr"]}.json", "w", encoding="utf-8") as f:
+            # TODO(michaelfromyeg): consider truncating the post on initial save
+            post_path = os.path.join(course_id_path, f"{post['nr']}.json")
+            with open(post_path, "w", encoding="utf-8") as f:
                 f.write(json.dumps(post))
             logger.info("[download] Wrote post %s/%s", course_id, post["nr"])
 
         logger.info("[download] Wrote course %s", course_id)
 
     return None
+
 
 def transform(course: str) -> None:
     """
@@ -89,7 +108,10 @@ def transform(course: str) -> None:
     if not is_course(course):
         raise ValueError("`transform` expects a course like <DPRT> <NUM>")
 
-    if not os.path.exists(f"data/{course}"):
+    tidy_course = tidy(course)
+    course_path = os.path.join(CWD, "data", tidy_course)
+
+    if not os.path.exists(course_path):
         raise ValueError(f"Course {course} not downloaded yet. Run `download` first.")
 
     p = piazza()
@@ -106,18 +128,30 @@ def transform(course: str) -> None:
 
         # TODO(michaelfromyeg): process course's json posts into better format
 
+
 def main() -> None:
     """
     Main function.
     """
-    # TODO(michaelfromyeg): make command-line argument
-    course = "CPSC 213"
+    parser = argparse.ArgumentParser(description="Process course data.")
 
-    # download()
+    parser.add_argument("course", type=str, help="Specify the course (e.g., CPSC 213)")
+    parser.add_argument(
+        "--download", action="store_true", help="Specify to download files"
+    )
+
+    args = parser.parse_args()
+
+    course = args.course
+    should_download = args.download
+
+    if should_download:
+        download(course)
 
     transform(course)
 
     return None
+
 
 if __name__ == "__main__":
     main()

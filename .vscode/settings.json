@@ -8,8 +8,8 @@
     "python.terminal.activateEnvironment": true,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.fixAll": true,
-        "source.organizeImports": true
+        "source.fixAll": "explicit",
+        "source.organizeImports": "explicit"
     },
     "python.analysis.typeCheckingMode": "basic"
 }
