@@ -5,9 +5,13 @@ An experiment.
 Get started the usual way.
 
 ```plaintext
-brew install python@3.12
+# install ollama for local LLM work
+curl https://ollama.ai/install.sh | sh
 
-python3.12 -m venv env
+# install python3.11
+brew install python@3.11
+
+python3.11 -m venv env
 source env/bin/activate
 
 pip install -r requirements.txt

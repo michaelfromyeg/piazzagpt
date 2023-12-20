@@ -7,8 +7,23 @@ import logging
 import os
 from typing import Any
 
+import html2text
+
+# import chromadb
 from dotenv import load_dotenv
+from langchain import hub
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.chains import RetrievalQA
+from langchain.chat_models import ChatOllama
+from langchain.embeddings import OllamaEmbeddings
+from langchain.vectorstores import Chroma
+from langchain_core.documents import Document
 from piazza_api import Piazza
+
+from .piazzaloader import PiazzaLoader
+
+h = html2text.HTML2Text()
+h.ignore_links = True
 
 CWD = os.getcwd()
 
@@ -20,6 +35,8 @@ PIAZZA_PASSWORD = os.environ.get("PIAZZA_PASSWORD")
 
 # TODO(michaelfromyeg): setup a better logger with function names.
 logger = logging.getLogger(__name__)
+
+# chroma_client = chromadb.PersistentClient(os.path.join(CWD, "vectorstore"))
 
 
 def piazza() -> Piazza:
@@ -92,11 +109,11 @@ def download(course: str) -> None:
     return None
 
 
-def _transform_post(post: dict) -> dict:
+def _transform_post(post: dict) -> list[dict]:
     """
     Transform a Piazza post into a Cohere prompt-completion pair.
     """
-    transformed_post: dict[str, Any] = {}
+    transformed_posts: list[dict[str, Any]] = []
 
     # Extract the original question and its ID
     original_question_info: dict[str, Any] = next(
@@ -123,16 +140,16 @@ def _transform_post(post: dict) -> dict:
     )
 
     # Original question entry
-    transformed_post[original_question_id] = {
+    transformed_post = {
+        "question_id": original_question_id,
         "subject": original_question_title,
         "question": original_question_content,
         "answer": instructor_answer,
         "metadata": original_question_metadata,
     }
+    transformed_posts.append(transformed_post)
 
-    # Iterate over the children for follow-up questions and answers
     for child in post.get("children", []):
-        # Skip instructor answers as they are already handled
         if child.get("type", "") == "i_answer":
             continue
 
@@ -151,20 +168,21 @@ def _transform_post(post: dict) -> dict:
         # Follow-up question metadata
         follow_up_question_metadata = {
             "is_follow_up": True,
-            "upvotes": child.get(
-                "num_favorites", 0
-            ),  # Assuming 'num_favorites' as upvotes for follow-ups
+            "upvotes": child.get("num_favorites", 0),
             "original_question_id": original_question_id,
         }
 
         # Follow-up question entry
-        transformed_post[follow_up_question_id] = {
-            "question": follow_up_question_content,
-            "answer": follow_up_answer,
-            "metadata": follow_up_question_metadata,
-        }
+        transformed_posts.append(
+            {
+                "question_id": follow_up_question_id,
+                "question": follow_up_question_content,
+                "answer": follow_up_answer,
+                "metadata": follow_up_question_metadata,
+            }
+        )
 
-    return transformed_post
+    return transformed_posts
 
 
 def transform(course: str) -> None:
@@ -200,6 +218,9 @@ def transform(course: str) -> None:
             course_ids_in_profile.append(course_id)
 
     transformed_course_path = os.path.join(CWD, "transformed_data", tidy_course)
+
+    remove_all_files_in_folder(transformed_course_path)
+
     for course_id in course_ids_in_profile:
         logger.debug("[transform] Transforming course instance %s", course_id)
 
@@ -220,15 +241,88 @@ def transform(course: str) -> None:
             with open(piazza_file_path, "r", encoding="utf-8") as f:
                 post = json.load(f)
 
-                post_transformed = _transform_post(post)
+                transformed_posts = _transform_post(post)
 
-            transformed_piazza_file_path = os.path.join(
-                transformed_course_instance_path, piazza_file
-            )
-            with open(transformed_piazza_file_path, "w", encoding="utf-8") as f:
-                f.write(json.dumps(post_transformed))
+            for i, transformed_post in enumerate(transformed_posts):
+                if (
+                    transformed_post.get("question", "") == ""
+                    or transformed_post.get("answer", "") == ""
+                ):
+                    continue
+
+                basename = os.path.splitext(piazza_file)[0]
+                transformed_piazza_file_path = os.path.join(
+                    transformed_course_instance_path, f"{basename}-{i}.json"
+                )
+                with open(transformed_piazza_file_path, "w", encoding="utf-8") as f:
+                    f.write(json.dumps(transformed_post))
 
     logger.info("[transform] Wrote transformed course %s", course)
+
+
+def answer(course: str, question: str, should_vectorize: bool = False) -> None:
+    """
+    Answer a question about a course.
+    """
+    vectorstore_path = os.path.join(CWD, "vectorstore")
+    # collection = chroma_client.get_or_create_collection("vectorstore")
+
+    if should_vectorize:
+        loader = PiazzaLoader(tidy(course))
+
+        sessions = loader.load()
+
+        # Hard reset cause LLM be weird
+        remove_all_files_in_folder("vectorstore")
+
+        # print(sessions)
+
+        all_splits: list[str] = []
+        for session in sessions:
+            for message in session["messages"]:  # type: ignore
+                all_splits.append(h.handle((str(message.content))))
+
+        # print(all_splits)
+
+        vectorstore = Chroma.from_documents(
+            documents=[Document(page_content=split) for split in all_splits],
+            embedding=OllamaEmbeddings(model="mistral"),
+            persist_directory=vectorstore_path,
+        )
+    else:
+        vectorstore = Chroma(
+            embedding=OllamaEmbeddings(model="mistral"),
+            persist_directory=vectorstore_path,
+        )
+
+    rag_prompt: str = hub.pull("rlm/rag-prompt")
+    llm = ChatOllama(model="mistral", callbacks=[StreamingStdOutCallbackHandler()])
+
+    qa_chain = RetrievalQA.from_chain_type(
+        llm,
+        retriever=vectorstore.as_retriever(search_kwargs={"k": 3}),
+        chain_type_kwargs={"prompt": rag_prompt},
+    )
+    return qa_chain({"query": question})["result"]
+
+
+def remove_all_files_in_folder(folder: str) -> None:
+    """
+    Remove all files in a folder.
+    """
+    for filename in os.listdir(folder):
+        if filename == ".gitkeep":
+            continue
+
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.remove(file_path)
+            elif os.path.isdir(file_path):
+                remove_all_files_in_folder(file_path)
+                os.rmdir(file_path)
+        except Exception as e:
+            print(f"Failed to delete {file_path} due to {e}")
 
 
 def main() -> None:
@@ -238,19 +332,26 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Process course data.")
 
     parser.add_argument("course", type=str, help="Specify the course (e.g., CPSC 213)")
-    parser.add_argument(
-        "--download", action="store_true", help="Specify to download files"
-    )
+    parser.add_argument("--download", action="store_true", help="Download files")
+    parser.add_argument("--transform", action="store_true", help="Transform files")
+    parser.add_argument("--vectorize", action="store_true", help="Vectorize files")
 
     args = parser.parse_args()
 
     course = args.course
-    should_download = args.download
+    should_download, should_transform, should_vectorize = (
+        args.download,
+        args.transform,
+        args.vectorize,
+    )
 
     if should_download:
         download(course)
 
-    transform(course)
+    if should_transform:
+        transform(course)
+
+    answer(course, "What is a pointer?", should_vectorize)
 
     return None
 

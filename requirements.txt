@@ -1,4 +1,7 @@
+chromadb
 elasticsearch
+html2text
 langchain
 piazza-api
 python-dotenv
+sentence-transformers
